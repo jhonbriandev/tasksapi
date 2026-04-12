@@ -2,6 +2,13 @@ from rest_framework import serializers
 from api.models import Task, User
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
+    # Le decimos explícitamente cómo encontrar la URL del author
+    # view_name='user-detail' → coincide con el basename='user' que usamos en el router
+    # read_only=True → porque ya lo tenemos en read_only_fields
+    author = serializers.HyperlinkedRelatedField(
+        view_name='user-detail',
+        read_only=True
+    )
     class Meta:
         model = Task
         fields = ['id','title','description','status','priority','author']

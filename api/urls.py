@@ -1,30 +1,29 @@
 from django.contrib import admin
-from django.urls import path
-from rest_framework import routers
-# Para FBV
-from  .import views
-# Para Generics Y Viewset
-from api.views import TaskList, TaskViewSet, UserList
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter, SimpleRouter
+from . import views
+from api.views import  TaskViewSet
 
-#router = routers.SimpleRouter()
-#router.register(r'tasks', task_list)
+""" 
+SOLO SE USA VIEWSETS
+"""
 
-#urlpatterns = router.urls
+router = DefaultRouter()
 
+# 2️⃣ Registrar tu ViewSet en el router
+# "tasks" = la URL que tendrás → /tasks/
+# views.TaskViewSet = tu ViewSet en views.py
+# basename = nombre interno para identificar las rutas
+""" 
+Se usa el basename task o user
+Pero el sistema genra automaticamente 
+    basename='task'  --->   task-list, task-detail
+    basename='user'  --->   user-list, user-detail
+"""
+router.register(r'tasks', views.TaskViewSet, basename='task')
+router.register(r'users', views.UserViewSet, basename='user')
+
+# 3️⃣ Conectar el router al urlpatterns
 urlpatterns = [
-    path('tasks/',views.task_list),
-    path('users/',views.user_list),
-    # Por defecto en FBV O APIVIEW los details se llaman ej: task-detail
-    # Entonces para coincidir debemos de agregar el name del url
-    path('tasks/<int:pk>',views.task_detail, name='task-detail'),
-    path('users/<int:pk>',views.user_detail, name='user-detail'),
-    
-    path('tasks_generic/',TaskList.as_view()), # Para generics
-        # En este caso no podemos pasar el as_view vacio
-        # Necesitamos pasarle argumentos
-        # el post o get y los distintos metodos create, list, delete segun correspondan
-        # siempre en un diccionario
-    path('users_generic/', UserList.as_view()),
-    path('tasks_view/',TaskViewSet.as_view({'post':'create'})), # Para viewset
-
+    path('', include(router.urls)),  # El router genera automáticamente las rutas
 ]
