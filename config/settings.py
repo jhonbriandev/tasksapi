@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -38,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "rest_framework",
+    'rest_framework_simplejwt', # Para el JWT
     'api',
 ]
 
@@ -122,7 +124,16 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     # AUN NO SE USA, SE USARA CUANDO HAY PERMISOS Y REQUIRED
-    #"DEFAULT_PERMISSION_CLASSES": [
-    #    "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly"
-    #]
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication', 
+    ],
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # La "pulsera" dura 1 hora
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Puede renovarse por 1 día
 }
