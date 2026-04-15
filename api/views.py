@@ -1,6 +1,6 @@
-from api.models import Task, User
+from api.models import Task, User, Category
 from django.shortcuts import get_object_or_404
-from api.serializers import TaskSerializer, UserSerializer
+from api.serializers import TaskSerializer, UserSerializer, CategorySerializer
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
 
@@ -17,4 +17,8 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+ 
  

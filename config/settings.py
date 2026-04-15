@@ -125,11 +125,18 @@ REST_FRAMEWORK = {
     # or allow read-only access for unauthenticated users.
     # AUN NO SE USA, SE USARA CUANDO HAY PERMISOS Y REQUIRED
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly",
+        "rest_framework.permissions.IsAuthenticated",
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication', 
+        
+        # 🌐 SessionAuthentication: para el Browsable API en el browser
+        'rest_framework.authentication.SessionAuthentication',
+        
+        # 📋 BasicAuthentication: login con usuario/contraseña directo
+        # Útil durante desarrollo para probar rápido
+        'rest_framework.authentication.BasicAuthentication',
     ],
 }
 

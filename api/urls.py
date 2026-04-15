@@ -21,6 +21,7 @@ Pero el sistema genra automaticamente
     basename='user'  --->   user-list, user-detail
 """
 router.register(r'tasks', views.TaskViewSet, basename='task')
+router.register(r'categories', views.CategoryViewSet, basename='category')
 router.register(r'users', views.UserViewSet, basename='user')
 
 # 3️⃣ Conectar el router al urlpatterns
