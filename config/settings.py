@@ -121,14 +121,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
+    # Solo los que se logueen ingresan al sistema
     # or allow read-only access for unauthenticated users.
-    # AUN NO SE USA, SE USARA CUANDO HAY PERMISOS Y REQUIRED
+
     "DEFAULT_PERMISSION_CLASSES": [
+        # Permiso global, solo logeados veran las vistas, a menos que incluyas excepciones
         "rest_framework.permissions.IsAuthenticated",
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        # Autentificacion por Token, podemos usarlo mediante Postman
         'rest_framework_simplejwt.authentication.JWTAuthentication', 
         
         # 🌐 SessionAuthentication: para el Browsable API en el browser
