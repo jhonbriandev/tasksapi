@@ -7,7 +7,7 @@ class Category(models.Model):
     description = models.TextField(max_length=200, blank= True)
     color = models.CharField(max_length=7, default="#000000")
     icon = models.CharField(max_length= 100, blank=True)
-    is_active = models.BooleanField(max_length=1)
+    is_active = models.BooleanField(max_length=1,default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updaated_at = models.DateTimeField(auto_now=True)
 

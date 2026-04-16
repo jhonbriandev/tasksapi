@@ -27,7 +27,7 @@ urlpatterns = [
     path('api/', include(router.urls)),
     # api auth se encargara de la validacion de login, sin eso no podremos usar token ni POST, PATCH, DELETE
     # PERO causa conflicto con JWT que usa POSTMAN asi que solo usar sino usaremos JWT
-    #path('api-auth/', include('rest_framework.urls')),
+    path('api-auth/', include('rest_framework.urls')),
         # Ruta de login → aquí envías usuario y contraseña, recibes el token
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
