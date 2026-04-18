@@ -12,7 +12,7 @@ Intención de la API:
     - Acceso a objetos específicos (has_object_permission)
 
 Este diseño sigue el patrón:
-👉 "lectura abierta + escritura protegida"
+ "lectura abierta + escritura protegida"
 """
 
 from api.models import Task, User, Category
@@ -65,8 +65,11 @@ class TaskViewSet(ModelViewSet):
     # - IsAuthorOrReadOnly permite lectura pública y escritura al autor
     # - IsAdminUser permite control total al administrador
     # Resultado:
-    # 👉 Autor O Admin pueden modificar
+    # Autor O Admin pueden modificar
     permission_classes = [IsAuthorOrReadOnly | IsAdminUser]
+    filterset_fields = ['status', 'category']  # ?status=P no Pending ! Filtrando por P
+    search_fields = ['title', 'description']    # ?search= organizar ! Filtrando por titulo
+    ordering_fields = ['created_at', 'title']  # ?ordering=-created_at ! Filtrando por mas reciente creacion
 
 
 class UserViewSet(ModelViewSet):

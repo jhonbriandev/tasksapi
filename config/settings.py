@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "rest_framework",
     'rest_framework_simplejwt', # Para el JWT
     'api',
+    'django_filters',
+    'drf_spectacular',
 ]
 
 MIDDLEWARE = [
@@ -140,6 +142,17 @@ REST_FRAMEWORK = {
         # Útil durante desarrollo para probar rápido
         'rest_framework.authentication.BasicAuthentication',
     ],
+    # Previamente instalando pip install django-filter, para filtros
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    # Para paginacion con tamaño de 10 registros por pagina
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    # Para Swagger
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {

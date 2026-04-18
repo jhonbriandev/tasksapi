@@ -9,17 +9,60 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
         view_name='user-detail',
         read_only=True
     )
+    # Muestra el ID numérico
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all()
+    )
+    # Muestra la URL clickeable (solo lectura, para navegar)
+    category_url = serializers.HyperlinkedRelatedField(
+        view_name='category-detail',
+        read_only=True,
+        source='category'  # ← apunta al mismo campo
+    )
+
     class Meta:
         model = Task
-        fields = ['id','title','description','status','priority','author']
-        read_only_fields = ['author']
+        fields = ['id','title','category','category_url','description','status','priority','author']
+        read_only_fields = ['author','category_url']
         
     # Validacion rapida para saber si es una tarea o nota
     # Esto se visualiza en el metodo POST en generics
+    # comentado porque en postman es mas estricto
     def validate_title(self,title):
         if 'tarea' not in title.lower():
             raise serializers.ValidationError("Al parecer no es una tarea sino una nota")
         return title
+
+    def create(self, validated_data):
+        # El usuario viene del contexto de la request, no del JSON
+        users = self.context['request'].user
+        # Usamos author puesto que es el nombre del campo(FK) que vamos a comparar con la variable users
+        return Task.objects.create(author=users, **validated_data)
+        # Esto genera que se cree un task, tomando del contexto request el user, en este caso author
+        # Posteriormente tomando todos los demas datos por eso usamos **kwargs
+    
+    """
+    Para usarlo en postman:
+    --PARA CREAR--
+    {
+    "title": "Tarea de pruebasa",
+    "category" : 1,
+    "description": "Pruebita",
+    "status": "P",
+    "priority": "H"
+    }  
+    --PARA ACTUALIZAR-- 
+    {
+    "id": 5,
+    "title": "Tarea de prueba 3 - editada2",
+    "category": 1,
+    "category_url": "http://127.0.0.1:8000/api/categories/1/",
+    "description": "Pruebita 3",
+    "status": "P",
+    "priority": "H",
+    "author": "http://127.0.0.1:8000/api/users/10/"
+    }
+    """
 
 class UserSerializer(serializers.HyperlinkedModelSerializer ):
     # Se crea el hypercinculo para acceder a los detalles
