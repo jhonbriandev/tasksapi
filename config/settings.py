@@ -154,7 +154,7 @@ REST_FRAMEWORK = {
     # Para Swagger
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
-
+# para autenticacion
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),  # La "pulsera" dura 1 hora
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),     # Puede renovarse por 1 día
