@@ -28,10 +28,10 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
     # Validacion rapida para saber si es una tarea o nota
     # Esto se visualiza en el metodo POST en generics
     # comentado porque en postman es mas estricto
-    def validate_title(self,title):
-        if 'tarea' not in title.lower():
-            raise serializers.ValidationError("Al parecer no es una tarea sino una nota")
-        return title
+    #def validate_title(self,title):
+    #    if 'tarea' not in title.lower():
+    #        raise serializers.ValidationError("Al parecer no es una tarea sino una nota")
+    #    return title
 
     def create(self, validated_data):
         # El usuario viene del contexto de la request, no del JSON
