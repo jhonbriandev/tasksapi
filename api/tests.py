@@ -176,3 +176,4 @@ class TaskAPITest(APITestCase):
         # '?status=P' filtra tareas con estado 'Pending'
         # filterset_fields en el ViewSet habilita este tipo de filtrado por query params
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+        # FIN DE TESTS
